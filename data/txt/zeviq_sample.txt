@@ -1,0 +1,15 @@
+Zeviq AI is an enterprise Retrieval-Augmented Generation system.
+
+The application lets users ask questions about uploaded documents and receive
+answers grounded in source material. Administrators can upload PDF, DOCX, TXT,
+CSV, and Markdown files, preview document contents, search the document library,
+delete documents in bulk, and manually re-index the vector database.
+
+The backend uses FastAPI, ChromaDB, HuggingFace embeddings, and Ollama running
+Llama 3.2. The frontend provides a dark themed chat interface with streaming
+responses, source attribution, local chat sessions, and export options.
+
+Operational guidance:
+- Run Ollama with the llama3.2 model before asking questions.
+- Keep data and chroma_db persisted in production.
+- Change default admin credentials and SECRET_KEY before deployment.
