@@ -2,7 +2,7 @@
   "name": "zeviq-rag-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "Vanilla frontend for the Zeviq AI RAG web application",
+  "description": "Vanilla frontend for the Lumora RAG web application",
   "scripts": {
     "serve": "python -m http.server 3000",
     "start": "python -m http.server 3000"

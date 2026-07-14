@@ -1,4 +1,4 @@
-# Zeviq AI RAG Web Application
+# Lumora RAG Web Application
 
 Production-ready Retrieval-Augmented Generation web app powered by:
 
@@ -105,8 +105,8 @@ Invoke-RestMethod -Method Post http://localhost:8000/api/documents/reindex -Head
 Build and run the web app:
 
 ```powershell
-docker build -t zeviq-rag .
-docker run --rm -p 8000:8000 -v ${PWD}\data:/app/data -v ${PWD}\chroma_db:/app/chroma_db zeviq-rag
+docker build -t lumora-rag .
+docker run --rm -p 8000:8000 -v ${PWD}\data:/app/data -v ${PWD}\chroma_db:/app/chroma_db lumora-rag
 ```
 
 If Ollama runs on the host, configure `OLLAMA_BASE_URL` appropriately for your Docker environment.

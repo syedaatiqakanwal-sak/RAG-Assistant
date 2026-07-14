@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 _vectorstore = None
 _lock = threading.Lock()
 
-PROMPT_TEMPLATE = """You are Zeviq AI, a helpful assistant that answers questions \
+PROMPT_TEMPLATE = """You are Lumora, a helpful assistant that answers questions \
 strictly using the provided context from the user's documents.
 
 Guidelines:

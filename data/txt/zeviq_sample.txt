@@ -1,4 +1,4 @@
-Zeviq AI is an enterprise Retrieval-Augmented Generation system.
+Lumora is an enterprise Retrieval-Augmented Generation system.
 
 The application lets users ask questions about uploaded documents and receive
 answers grounded in source material. Administrators can upload PDF, DOCX, TXT,

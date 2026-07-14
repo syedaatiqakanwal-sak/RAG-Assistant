@@ -31,7 +31,7 @@ class Settings:
     """Application settings resolved from the environment."""
 
     # --- General ---------------------------------------------------------
-    APP_NAME: str = os.getenv("APP_NAME", "Zeviq AI RAG API")
+    APP_NAME: str = os.getenv("APP_NAME", "Lumora RAG API")
     APP_VERSION: str = "2.0.0"
     DEBUG: bool = _get_bool("DEBUG", True)
 

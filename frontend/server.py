@@ -24,7 +24,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 Handler = CustomHandler
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print(f"🚀 Zeviq AI Frontend")
+    print(f"🚀 Lumora Frontend")
     print(f"📁 Serving from: {os.getcwd()}")
     print(f"🌐 http://localhost:{PORT}")
     print("Press Ctrl+C to stop")

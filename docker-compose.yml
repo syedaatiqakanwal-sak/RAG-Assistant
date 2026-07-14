@@ -5,7 +5,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      APP_NAME: "Zeviq AI RAG API"
+      APP_NAME: "Lumora RAG API"
       DEBUG: "false"
       SECRET_KEY: "change-this-in-production"
       ADMIN_USERNAME: "admin"
