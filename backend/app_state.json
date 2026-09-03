@@ -1,0 +1,362 @@
+{
+  "questions_asked": 35,
+  "activity": [
+    {
+      "type": "question",
+      "question": "What is Zeviq AI?",
+      "sources": 2,
+      "latency_ms": 83157,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:35:04.944161+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What is Zeviq AI?",
+      "sources": 2,
+      "latency_ms": 7497,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:35:31.748443+00:00"
+    },
+    {
+      "type": "upload",
+      "question": "Uploaded 100 proven ways to acquire and keep clients.pdf",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-06-30T09:38:27.425673+00:00"
+    },
+    {
+      "type": "reindex",
+      "question": "Re-indexed 14 documents into 43 chunks",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-06-30T09:38:29.135291+00:00"
+    },
+    {
+      "type": "upload",
+      "question": "Uploaded How-to-get-clients-first-chapter.pdf",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-06-30T09:39:04.751631+00:00"
+    },
+    {
+      "type": "reindex",
+      "question": "Re-indexed 14 documents into 43 chunks",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-06-30T09:39:06.435603+00:00"
+    },
+    {
+      "type": "question",
+      "question": "I want to know the techniques that I can use to get clients as a beginner but experienced in feild but dont know how to sale my work",
+      "sources": 4,
+      "latency_ms": 14947,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:42:12.023439+00:00"
+    },
+    {
+      "type": "question",
+      "question": "ok then summerize yourknowledge related to the client",
+      "sources": 4,
+      "latency_ms": 15219,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:43:21.205629+00:00"
+    },
+    {
+      "type": "question",
+      "question": "These insights suggest that focusing on delivering exceptional customer experiences, building strong relationships, and creating emotional connections with clients is essential for acquiring and retaining clients. so what does it mean i understand that we have to create our social presence and then we have to built emotional connection and relation with clients",
+      "sources": 4,
+      "latency_ms": 12954,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:46:19.810797+00:00"
+    },
+    {
+      "type": "question",
+      "question": "ok i understand but how can i geberate a personalize experiece for each and every one",
+      "sources": 4,
+      "latency_ms": 19062,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:49:31.211095+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What are the main topics covered in the documents?",
+      "sources": 4,
+      "latency_ms": 12733,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:50:43.019284+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What does the document '100 proven ways to acquire and keep clients' say?",
+      "sources": 4,
+      "latency_ms": 16214,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:51:58.245428+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What does the document '100 proven ways to acquire and keep clients' say?",
+      "sources": 4,
+      "latency_ms": 21392,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:58:33.535788+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What does the document 'How to get clients first chapter' say?",
+      "sources": 4,
+      "latency_ms": 10055,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T09:59:36.655777+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What does the document 'How to get clients first chapter' say?",
+      "sources": 4,
+      "latency_ms": 6037,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T10:00:01.666600+00:00"
+    },
+    {
+      "type": "question",
+      "question": "How-to-get-clients-first-chapter.pdf  this is uploaded in your document so how can you dont have an information",
+      "sources": 4,
+      "latency_ms": 12869,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T10:01:31.717861+00:00"
+    },
+    {
+      "type": "reindex",
+      "question": "Re-indexed 14 documents into 43 chunks",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-06-30T10:06:07.305744+00:00"
+    },
+    {
+      "type": "reindex",
+      "question": "Re-indexed 30 documents into 73 chunks",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-06-30T10:09:54.618534+00:00"
+    },
+    {
+      "type": "question",
+      "question": "Summarize How-to-get-clients-first-chapter.pdf",
+      "sources": 4,
+      "latency_ms": 17811,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T10:11:05.178928+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What does the document 'How to get clients first chapter' say?",
+      "sources": 4,
+      "latency_ms": 13565,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T10:31:54.698538+00:00"
+    },
+    {
+      "type": "question",
+      "question": "Give me a summary of the available information.",
+      "sources": 4,
+      "latency_ms": 15349,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T10:33:52.432118+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What are the main topics covered in the documents?",
+      "sources": 4,
+      "latency_ms": 17148,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T10:44:47.081376+00:00"
+    },
+    {
+      "type": "question",
+      "question": "Give me a summary of the available information.",
+      "sources": 4,
+      "latency_ms": 14880,
+      "client": "127.0.0.1",
+      "timestamp": "2026-06-30T10:46:41.043847+00:00"
+    },
+    {
+      "type": "question",
+      "question": "Hello",
+      "sources": 4,
+      "latency_ms": 52246,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:20:58.074731+00:00"
+    },
+    {
+      "type": "question",
+      "question": "give me your client name",
+      "sources": 4,
+      "latency_ms": 7205,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:21:17.535283+00:00"
+    },
+    {
+      "type": "question",
+      "question": "what service do you provide",
+      "sources": 4,
+      "latency_ms": 7125,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:21:39.030936+00:00"
+    },
+    {
+      "type": "question",
+      "question": "what information do you have",
+      "sources": 4,
+      "latency_ms": 18484,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:22:31.738656+00:00"
+    },
+    {
+      "type": "question",
+      "question": "what is zeviq",
+      "sources": 4,
+      "latency_ms": 6884,
+      "client": "192.168.1.187",
+      "timestamp": "2026-07-01T08:23:03.332136+00:00"
+    },
+    {
+      "type": "question",
+      "question": "how to get a client",
+      "sources": 4,
+      "latency_ms": 11330,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:23:08.659231+00:00"
+    },
+    {
+      "type": "question",
+      "question": "but you say you have knowledge about How-to-get-clients-first-chapter.pdf",
+      "sources": 4,
+      "latency_ms": 9293,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:24:02.811504+00:00"
+    },
+    {
+      "type": "question",
+      "question": "i want to know how to get a client",
+      "sources": 4,
+      "latency_ms": 8928,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:24:19.979668+00:00"
+    },
+    {
+      "type": "question",
+      "question": "strategies for acquiring clients",
+      "sources": 4,
+      "latency_ms": 17968,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:24:48.278376+00:00"
+    },
+    {
+      "type": "question",
+      "question": "make it more easy",
+      "sources": 4,
+      "latency_ms": 9112,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:25:19.345216+00:00"
+    },
+    {
+      "type": "question",
+      "question": "what services you offer",
+      "sources": 4,
+      "latency_ms": 10110,
+      "client": "192.168.1.187",
+      "timestamp": "2026-07-01T08:25:25.749911+00:00"
+    },
+    {
+      "type": "question",
+      "question": "who are you",
+      "sources": 4,
+      "latency_ms": 7541,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:25:43.553857+00:00"
+    },
+    {
+      "type": "question",
+      "question": "What key facts can you find in the documents?",
+      "sources": 4,
+      "latency_ms": 14310,
+      "client": "127.0.0.1",
+      "timestamp": "2026-07-01T08:26:04.514775+00:00"
+    },
+    {
+      "type": "question",
+      "question": "job title",
+      "sources": 4,
+      "latency_ms": 21244,
+      "client": "192.168.1.225",
+      "timestamp": "2026-07-01T08:26:12.063423+00:00"
+    },
+    {
+      "type": "upload",
+      "question": "Uploaded md_upload_test.md",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-07-02T10:43:44.141959+00:00"
+    },
+    {
+      "type": "delete",
+      "question": "Deleted md_upload_test.md",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-07-02T10:43:48.257854+00:00"
+    },
+    {
+      "type": "reindex",
+      "question": "Re-indexed 30 documents into 73 chunks",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-07-02T10:44:34.145302+00:00"
+    },
+    {
+      "type": "question",
+      "question": "Give me a summary of the available information.",
+      "sources": 4,
+      "latency_ms": 29185,
+      "client": "192.168.1.109",
+      "timestamp": "2026-07-02T12:02:35.107840+00:00"
+    },
+    {
+      "type": "question",
+      "question": "Give me a summary of the available information.",
+      "sources": 4,
+      "latency_ms": 15000,
+      "client": "192.168.1.109",
+      "timestamp": "2026-07-02T12:03:56.746000+00:00"
+    },
+    {
+      "type": "upload",
+      "question": "Uploaded Python Programming.pdf",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-07-02T12:07:07.048809+00:00"
+    },
+    {
+      "type": "reindex",
+      "question": "Re-indexed 173 documents into 311 chunks",
+      "sources": 0,
+      "client": "system",
+      "timestamp": "2026-07-02T12:07:29.965690+00:00"
+    },
+    {
+      "type": "question",
+      "question": "write em a python simple program to print my name",
+      "sources": 4,
+      "latency_ms": 12233,
+      "client": "192.168.1.109",
+      "timestamp": "2026-07-02T12:08:23.821553+00:00"
+    },
+    {
+      "type": "question",
+      "question": "give me a python code for snake game",
+      "sources": 10,
+      "latency_ms": 18602,
+      "client": "192.168.1.109",
+      "timestamp": "2026-07-02T12:27:13.503860+00:00"
+    }
+  ]
+}

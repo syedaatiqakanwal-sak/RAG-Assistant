@@ -1,0 +1,230 @@
+🧠 Zeviq RAG — Complete Learning Guide
+📌 Pehle Samjho: RAG Kya Hota Hai?
+RAG = Retrieval-Augmented Generation
+Normally ek AI model (jaise ChatGPT) sirf apni training data se jawab deta hai. Lekin agar tumhare paas apne documents hain (PDFs, Word files, etc.) aur tum chahte ho ke AI sirf unhi documents se jawab de — toh RAG use karte hain.
+Flow kuch aisa hai:
+User ka sawal
+     ↓
+Documents mein se relevant chunks dhundo (Retrieval)
+     ↓
+Un chunks ko context deke AI ko do (Augmentation)
+     ↓
+AI jawab generate kare (Generation)
+Yeh project exactly yahi karta hai — tumhare uploaded PDFs/docs ko index karta hai, phir user ke sawal pe relevant parts dhundta hai, aur Ollama (local AI) se jawab generate karta hai.
+
+🗂️ Project Structure
+Zeviq RAG/
+├── backend/                    ← Main FastAPI server
+│   ├── app/
+│   │   ├── main.py            ← App ka entry point
+│   │   ├── api/               ← HTTP Endpoints (routes)
+│   │   │   ├── auth.py        ← Login/logout
+│   │   │   ├── chat.py        ← Chat (normal + streaming)
+│   │   │   ├── documents.py   ← Upload/delete/reindex docs
+│   │   │   ├── stats.py       ← System stats
+│   │   │   └── deps.py        ← Auth guards, rate limiting
+│   │   ├── core/              ← Business logic
+│   │   │   ├── config.py      ← Settings (env variables)
+│   │   │   ├── rag.py         ← RAG engine (retrieval + generation)
+│   │   │   ├── ingestion.py   ← Document loading + chunking
+│   │   │   ├── embeddings.py  ← AI embedding model
+│   │   │   ├── security.py    ← JWT tokens, password hashing
+│   │   │   └── state.py       ← In-memory app state
+│   │   ├── models/            ← Pydantic data models (request/response shapes)
+│   │   │   ├── chat.py
+│   │   │   ├── documents.py
+│   │   │   └── user.py
+│   │   ├── services/          ← Higher-level business operations
+│   │   │   ├── chat_service.py
+│   │   │   ├── document_service.py
+│   │   │   └── indexing_service.py
+│   │   └── utils/             ← Helper functions
+│   │       ├── file_handlers.py
+│   │       └── validators.py
+│   ├── .env.example           ← Configuration template
+│   ├── requirements.txt       ← Python dependencies
+│   └── run.py                 ← Server start karne ka script
+├── frontend/
+│   ├── index.html             ← Main HTML page
+│   ├── app.js                 ← Frontend JavaScript (chat UI)
+│   └── styles.css             ← Styling
+├── data/                      ← Uploaded documents yahan save hote hain
+│   ├── pdf/
+│   ├── txt/
+│   └── ...
+├── chroma_db/                 ← Vector database (embeddings store)
+├── ingest.py                  ← Standalone ingestion script
+├── ask.py / ask_hf.py / ask_ollama.py  ← CLI test scripts
+├── Dockerfile                 ← Docker container definition
+└── docker-compose.yml         ← Multi-container setup
+
+🔑 Key Concepts — Ek Ek Explain
+1. FastAPI
+Python ka modern web framework. main.py mein app create hoti hai:
+pythonapp = FastAPI(title="Zeviq AI RAG API")
+
+Automatic API docs /docs pe milti hain
+Async support built-in hai (fast performance)
+Type hints se automatic validation hoti hai
+
+2. Pydantic Models (models/ folder)
+Request aur response ka shape define karte hain. Example:
+pythonclass ChatRequest(BaseModel):
+    question: str
+    temperature: float = 0.2
+    top_k: int = 4
+Iska matlab: user jo JSON bhejta hai usmein question required hai, baaki optional hain default values ke saath.
+3. Embeddings (core/embeddings.py)
+Documents ko numbers mein convert karna. all-MiniLM-L6-v2 ek HuggingFace model hai jo text ko 384-dimensional vector mein convert karta hai.
+"How to get clients?" → [0.23, -0.45, 0.12, ... 384 numbers]
+Similar meaning wale texts ke vectors close hote hain mathematical space mein. Yahi similarity search ka basis hai.
+4. ChromaDB (chroma_db/ folder)
+Vector Database — ye vectors store karta hai aur fast similarity search karta hai.
+User ka sawal → embedding → Chroma se top-K similar chunks dhundho
+data_level0.bin files andar HNSW (Hierarchical Navigable Small World) graph hai — ek fast approximate nearest neighbor algorithm.
+5. Document Ingestion (core/ingestion.py)
+Pipeline:
+
+Disk se files load karo (PDF → PyPDFLoader, DOCX → UnstructuredWordDocumentLoader, etc.)
+Metadata attach karo (filename, category, file_type)
+Chunk karo — bade documents ko chhote pieces mein todna:
+
+CHUNK_SIZE=800 characters per chunk
+CHUNK_OVERLAP=100 — chunks thoda overlap karein taake context na tute
+
+
+Har chunk ka embedding banao
+ChromaDB mein save karo
+
+6. RAG Engine (core/rag.py)
+Yeh sabse important file hai:
+pythonPROMPT_TEMPLATE = """You are Zeviq AI...
+Context: {context}
+Question: {question}
+Answer:"""
+Process:
+
+User ka sawal lo
+ChromaDB se top-K relevant chunks retrieve karo
+Un chunks ko Context: mein daal ke Ollama ko prompt do
+Ollama (Llama 3.2) jawab generate kare
+Sources ke saath return karo
+
+Streaming vs Non-Streaming:
+
+/api/chat — pura jawab ek baar mein aata hai
+/api/chat/stream — Server-Sent Events (SSE) use karta hai, token by token aata hai (typewriter effect)
+
+7. JWT Authentication (core/security.py + api/auth.py)
+JWT = JSON Web Token
+Login karo → server ek signed token deta hai → har admin request mein wo token bhejte ho → server verify karta hai.
+python# Login pe token create hota hai
+token = create_access_token(subject="admin", role="admin")
+
+# Protected endpoints pe verify hota hai
+def require_admin(user: dict = Depends(get_current_user)) -> dict:
+    if user.get("role") != "admin": raise HTTPException(403)
+Password bcrypt se hash hota hai — plaintext kabhi store nahi hota.
+8. Rate Limiting (api/deps.py)
+Ek IP se zyada requests aane pe block kar do:
+python# 30 requests per 60 seconds per IP
+_chat_limiter = RateLimiter(max_requests=30, window_seconds=60)
+Sliding window algorithm use karta hai — deque mein timestamps store hote hain.
+9. WebSocket (main.py)
+/api/ws/status — frontend se live connection, har 5 seconds mein document/chunk count update bhejta hai:
+pythonwhile True:
+    await websocket.send_json({"total_documents": ..., "total_chunks": ...})
+    await asyncio.sleep(5)
+10. SSE Streaming (api/chat.py)
+Server-Sent Events — unidirectional stream server → client:
+event: sources   data: [...]
+event: token     data: {"token": "Hello"}
+event: token     data: {"token": " world"}
+event: done      data: {"ok": true}
+Frontend yeh events sun ke word by word text display karta hai.
+11. Ollama
+Local AI model runner. llama3.2 model locally chalata hai — no API key, no cloud, sab local. Port 11434 pe HTTP API expose karta hai.
+12. LangChain
+AI applications build karne ka framework. Yahan use hote hain:
+
+langchain_community — document loaders, vector store wrappers
+langchain_text_splitters — RecursiveCharacterTextSplitter
+langchain_huggingface — embedding model wrapper
+langchain_ollama — Ollama LLM wrapper
+
+13. Singleton Pattern (embeddings.py, rag.py)
+Embedding model aur vector store ek baar load hote hain, phir same instance reuse hota hai:
+python_embeddings = None
+_lock = threading.Lock()
+
+def get_embeddings():
+    global _embeddings
+    if _embeddings is None:
+        with _lock:  # Thread-safe double-checked locking
+            if _embeddings is None:
+                _embeddings = HuggingFaceEmbeddings(...)
+    return _embeddings
+14. Dependency Injection (FastAPI's Depends)
+pythonasync def upload_documents(
+    files: List[UploadFile] = File(...),
+    _: dict = Depends(require_admin),  # ← yeh automatically admin check karta hai
+)
+FastAPI require_admin function automatically call karta hai aur agar admin nahi toh 403 error deta hai — bina explicitly har endpoint mein likhne ke.
+15. Docker
+Dockerfile se image banao, sab dependencies saath pack ho jaati hain. docker-compose.yml multi-service setup ke liye (future mein Ollama bhi containerize kar sakte ho).
+
+🔄 Complete Request Flow (Example: User Sawal Poochhe)
+User: "How to get more clients?"
+         ↓
+Frontend (app.js) → POST /api/chat/stream
+         ↓
+Rate limiter check (IP ke liye)
+         ↓
+chat_service.stream() call
+         ↓
+rag.stream() call
+         ↓
+get_embeddings() → "How to get more clients?" → [0.23, ...]
+         ↓
+ChromaDB similarity search → top 4 chunks (from PDFs)
+         ↓
+PROMPT_TEMPLATE format karo context ke saath
+         ↓
+OllamaLLM.stream(prompt) → tokens generate hote hain
+         ↓
+SSE events frontend ko bhejo (token by token)
+         ↓
+Frontend typewriter effect se display kare
+         ↓
+"event: done" aaye toh sources show karo
+
+📁 Data Files
+Project mein already kuch PDFs hain jinka index ban chuka hai:
+
+100 proven ways to acquire and keep clients.pdf
+How-to-get-clients-first-chapter.pdf
+Python Programming.pdf
+zeviq_sample.txt — Zeviq AI ke baare mein sample text
+
+chroma_db/ folder mein multiple collections hain (HNSW index files) — har baar re-index karne pe naya collection banta tha.
+
+🚀 Early Scripts (Learning Se Production Tak)
+ask.py — Simple CLI test: directly ChromaDB + Ollama call karo, koi server nahi.
+ask_hf.py — HuggingFace models test karo (cloud-based).
+ask_ollama.py — Sirf Ollama test karo.
+ingest.py — Standalone ingestion script (backend ke bina).
+backend.py — Purana monolithic backend (sab ek file mein).
+app_admin.py — Purana admin panel backend.
+Yeh saare evolution dikhate hain — prototype se lekar proper modular production architecture tak.
+
+🌐 Frontend
+index.html + app.js + styles.css — Pure vanilla JS, koi React/Vue nahi.
+Features:
+
+Chat interface with streaming (typewriter effect)
+Multiple local chat sessions (localStorage mein save)
+Admin panel (JWT token se protect)
+Document upload (drag & drop)
+Source attribution (AI kitne document ke kistaur chunk se jawab liya)
+
+start_public_server.bat aur allow_firewall_8001_admin.bat — Windows scripts LAN pe access karne ke liye (firewall rule add karta hai).
