@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "Zeviq AI RAG API",
+    "description": "Postman collection for the Zeviq AI RAG web application.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8000/api" },
+    { "key": "token", "value": "" },
+    { "key": "document_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+        },
+        "url": "{{base_url}}/auth/login"
+      }
+    },
+    {
+      "name": "Status",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/status"
+      }
+    },
+    {
+      "name": "Chat",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"question\": \"What is Zeviq AI?\",\n  \"temperature\": 0.2,\n  \"top_k\": 4\n}"
+        },
+        "url": "{{base_url}}/chat"
+      }
+    },
+    {
+      "name": "List Documents",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/documents"
+      }
+    },
+    {
+      "name": "Upload Documents",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "files", "type": "file", "src": [] }
+          ]
+        },
+        "url": "{{base_url}}/documents/upload?reindex=true"
+      }
+    },
+    {
+      "name": "Preview Document",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/documents/{{document_id}}/preview"
+      }
+    },
+    {
+      "name": "Re-index Documents",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/documents/reindex"
+      }
+    },
+    {
+      "name": "Bulk Delete Documents",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ids\": [\"{{document_id}}\"]\n}"
+        },
+        "url": "{{base_url}}/documents/delete"
+      }
+    },
+    {
+      "name": "Stats",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/stats"
+      }
+    },
+    {
+      "name": "Activity",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/activity"
+      }
+    }
+  ]
+}

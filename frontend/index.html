@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Zeviq AI RAG document assistant powered by ChromaDB and Llama 3.2">
+  <title>Zeviq AI - Intelligent Document Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar" aria-label="Primary navigation">
+    <div class="brand" aria-label="Zeviq AI">
+      <div class="logo" aria-hidden="true">Z</div>
+      <div>
+        <div class="name">Zeviq AI</div>
+        <small style="color: var(--muted); font-weight: 500;">Enterprise RAG</small>
+      </div>
+    </div>
+    <div class="nav-tabs" role="tablist" aria-label="Application sections">
+      <button class="nav-tab active" data-view="chat" role="tab" aria-selected="true">Chat</button>
+      <button class="nav-tab" data-view="documents" role="tab" aria-selected="false">Documents</button>
+      <button class="nav-tab" data-view="admin" role="tab" aria-selected="false">Admin</button>
+    </div>
+    <div class="nav-right">
+      <div class="status-pill" id="statusPill" title="Backend and Ollama status">
+        <span class="dot" id="statusDot" aria-hidden="true"></span>
+        <span class="txt" id="statusText">Checking...</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section id="chatView" class="view active" aria-labelledby="chatTitle">
+      <div class="chat-layout">
+        <aside class="sessions card" aria-label="Chat sessions">
+          <button class="btn primary" id="newSessionBtn">New chat</button>
+          <h3>Sessions</h3>
+          <div class="session-list" id="sessionList"></div>
+        </aside>
+
+        <section class="chat-main card">
+          <header class="chat-head">
+            <div>
+              <h2 id="chatTitle">Ask your documents</h2>
+              <p>Streaming answers with source attribution from your ChromaDB index.</p>
+            </div>
+            <div class="actions">
+              <button class="btn sm" id="exportTxtBtn">Export TXT</button>
+              <button class="btn sm" id="exportPdfBtn">Print/PDF</button>
+              <button class="btn sm ghost" id="clearChatBtn">Clear</button>
+            </div>
+          </header>
+
+          <div class="messages" id="messages" aria-live="polite">
+            <div class="welcome" id="welcome">
+              <div class="emoji" aria-hidden="true">AI</div>
+              <h3>Welcome to Zeviq AI</h3>
+              <p>Ask a question about your uploaded documents. I will answer only from indexed context and show the sources used.</p>
+            </div>
+          </div>
+
+          <div class="suggestions" id="suggestions" aria-label="Suggested questions"></div>
+
+          <form class="composer" id="chatForm">
+            <div class="opts" aria-label="RAG controls">
+              <label>Temperature <input id="temperature" type="range" min="0" max="1" step="0.05" value="0.2"> <span id="temperatureValue">0.20</span></label>
+              <label>Sources <input id="topK" type="range" min="1" max="10" step="1" value="4"> <span id="topKValue">4</span></label>
+            </div>
+            <div class="row">
+              <textarea id="questionInput" rows="1" placeholder="Ask a question about your documents..." aria-label="Question"></textarea>
+              <button class="send" id="sendBtn" type="submit" aria-label="Send question">➤</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section id="documentsView" class="view" aria-labelledby="documentsTitle">
+      <div class="card" style="padding: 1.1rem;">
+        <div class="panel-head">
+          <div>
+            <h2 id="documentsTitle">Document library</h2>
+            <p>Browse indexed documents and preview source content.</p>
+          </div>
+          <button class="btn" id="refreshPublicDocsBtn">Refresh</button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box">
+            <span class="ic">⌕</span>
+            <input id="publicDocSearch" type="search" placeholder="Search document names or categories..." aria-label="Search documents">
+          </div>
+        </div>
+        <div id="publicDocumentList"></div>
+      </div>
+    </section>
+
+    <section id="adminView" class="view" aria-labelledby="adminTitle">
+      <div id="adminLogin" class="admin-locked card">
+        <h2 id="adminTitle">Admin login</h2>
+        <p>Manage documents, indexing, monitoring, and activity logs.</p>
+        <form id="loginForm">
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" autocomplete="username" value="admin" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" placeholder="admin123" required>
+          </div>
+          <button class="btn primary" style="width: 100%;" type="submit">Login</button>
+        </form>
+      </div>
+
+      <div id="adminPanel" class="admin-grid hidden">
+        <aside class="admin-nav card" aria-label="Admin sections">
+          <button class="active" data-panel="dashboard">Dashboard</button>
+          <button data-panel="upload">Upload</button>
+          <button data-panel="manager">Documents</button>
+          <button data-panel="activity">Activity</button>
+          <div class="spacer"></div>
+          <button id="logoutBtn">Logout</button>
+        </aside>
+
+        <div>
+          <section id="dashboardPanel" class="panel active">
+            <div class="panel-head">
+              <div>
+                <h2>System monitoring</h2>
+                <p>Live RAG health, document totals, and question volume.</p>
+              </div>
+              <button class="btn" id="refreshStatsBtn">Refresh</button>
+            </div>
+            <div class="stats-row">
+              <div class="stat-card card"><div class="num" id="statDocs">0</div><div class="lbl">Documents</div></div>
+              <div class="stat-card card"><div class="num" id="statChunks">0</div><div class="lbl">Chunks</div></div>
+              <div class="stat-card card"><div class="num" id="statQuestions">0</div><div class="lbl">Questions asked</div></div>
+              <div class="stat-card card"><div class="num" id="statOllama">-</div><div class="lbl">Ollama</div></div>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <h3 style="margin-bottom: .7rem;">Folder organization</h3>
+              <div id="categoryStats"></div>
+            </div>
+          </section>
+
+          <section id="uploadPanel" class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Document upload</h2>
+                <p>Drag and drop PDF, DOCX, TXT, CSV, MD, or Markdown files. Uploads are automatically categorized by file type.</p>
+              </div>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload documents">
+                <div class="big">+</div>
+                <strong>Drop files here or click to browse</strong>
+                <p>Batch uploads supported</p>
+                <div class="hint">PDF, DOCX, TXT, CSV, MD, Markdown up to configured backend limit</div>
+                <input id="fileInput" type="file" multiple accept=".pdf,.docx,.txt,.csv,.md,.markdown" hidden>
+              </div>
+              <div class="file-queue" id="fileQueue"></div>
+              <div class="progress hidden" id="uploadProgress"><div class="bar" id="uploadProgressBar"></div></div>
+              <div style="display:flex; gap:.6rem; margin-top:1rem; flex-wrap:wrap;">
+                <button class="btn primary" id="uploadBtn">Upload and index</button>
+                <button class="btn" id="clearQueueBtn">Clear queue</button>
+              </div>
+            </div>
+          </section>
+
+          <section id="managerPanel" class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Document manager</h2>
+                <p>Search, preview, bulk delete, and manually re-index documents.</p>
+              </div>
+              <div style="display:flex; gap:.5rem; flex-wrap:wrap;">
+                <button class="btn" id="reindexBtn">Re-index all</button>
+                <button class="btn danger" id="bulkDeleteBtn">Delete selected</button>
+              </div>
+            </div>
+            <div class="toolbar">
+              <div class="search-box">
+                <span class="ic">⌕</span>
+                <input id="adminDocSearch" type="search" placeholder="Search uploaded documents..." aria-label="Search uploaded documents">
+              </div>
+              <button class="btn" id="refreshAdminDocsBtn">Refresh</button>
+            </div>
+            <div id="adminDocumentList"></div>
+          </section>
+
+          <section id="activityPanel" class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>User activity</h2>
+                <p>Recent questions, uploads, deletes, and indexing operations.</p>
+              </div>
+              <button class="btn" id="refreshActivityBtn">Refresh</button>
+            </div>
+            <div class="card" id="activityList"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal card">
+      <div class="modal-head">
+        <h3 id="modalTitle">Preview</h3>
+        <button class="btn sm" id="closeModalBtn">Close</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <footer class="footer">
+    Zeviq AI - RAG system powered by ChromaDB, Ollama, and Llama 3.2.
+    Run <code>ollama run llama3.2</code> before asking questions.
+  </footer>
+
+  <script src="app.js?v=20260702-md"></script>
+</body>
+</html>

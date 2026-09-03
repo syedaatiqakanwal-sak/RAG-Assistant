@@ -1,0 +1,23 @@
+services:
+  zeviq-rag:
+    build: .
+    container_name: zeviq-rag
+    ports:
+      - "8000:8000"
+    environment:
+      APP_NAME: "Zeviq AI RAG API"
+      DEBUG: "false"
+      SECRET_KEY: "change-this-in-production"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "admin123"
+      CORS_ORIGINS: "*"
+      OLLAMA_MODEL: "llama3.2"
+      OLLAMA_BASE_URL: "http://host.docker.internal:11434"
+      DATA_DIR: "/app/data"
+      CHROMA_DIR: "/app/chroma_db"
+    volumes:
+      - ./data:/app/data
+      - ./chroma_db:/app/chroma_db
+      - ./backend/app_state.json:/app/backend/app_state.json
+    restart: unless-stopped
+ 7 

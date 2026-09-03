@@ -1,0 +1,32 @@
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+rag_env/
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Generated vector store (rebuild via ingest/reindex)
+chroma_db/
+
+# Runtime / generated grading artefacts
+backend/app_state.json
+data/grading/cache/
+data/grading/reports/
+data/grading/correction_log.jsonl
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
